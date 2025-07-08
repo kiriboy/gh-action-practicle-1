@@ -1,0 +1,51 @@
+name: Action Practice Workflow Deploy
+on: push
+jobs: 
+    test: 
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with: 
+                node-version: 18
+            - name: Install dependencies
+              run: npm ic
+            - name: Run test
+              run: npm test
+            
+    lint:
+        needs: test 
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with: 
+                node-version: 18
+            - name: Install dependencies
+              run: npm ic
+            - name: Run lint
+              run: npm lint
+    build:
+        needs: [test, lint] 
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get code
+              uses: actions/checkout@v3
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with: 
+                node-version: 18
+            - name: Install dependencies
+              run: npm ic
+            - name: Run Build
+              run: npm build
+            - name: Deploy
+              run: echo " Deploying..."
+                
+
+
+
